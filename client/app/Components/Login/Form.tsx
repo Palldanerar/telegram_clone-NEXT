@@ -2,13 +2,16 @@
 
 import React, { useState } from 'react'
 import Avatar from './Avatar'
+import { handleSubmit } from '@/app/lib/fetchers';
+import { useRouter } from 'next/navigation';
 
 const Form = () => {
 
   const [avatarId, setAvatarId] = useState((Math.random() * 20).toFixed());
+  const router = useRouter()
 
   return (
-    <div className='flex flex-col gap-5'>
+    <form onSubmit={(e) => handleSubmit(e, router, avatarId, socket)} className='flex flex-col gap-5'>
       <Avatar avatarId={avatarId} setAvatarId={setAvatarId} />
       <div className='flex flex-col xl:flex-row gap-5'>
         <div className='form-control w-full'>
@@ -21,7 +24,7 @@ const Form = () => {
         </div>
       </div>
       <button className='btn'>Login</button>
-    </div>
+    </form>
   )
 }
 
