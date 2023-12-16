@@ -9,11 +9,18 @@ const app = express()
 const server = http.createServer(app)
 const { PORT } = process.env || 8080
 
-app.use(cors())
+const corsOptions = {
+    origin: '*',
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
-app.use("/", userRouter);
 
 mongoConnect()
 server.listen(PORT, () => {
     console.log(`SERVER START ON ${PORT} PORT!`)
 })
+
+app.use("/", userRouter);

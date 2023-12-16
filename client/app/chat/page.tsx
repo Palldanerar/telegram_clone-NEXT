@@ -5,7 +5,6 @@ function page() {
   return (
     <div className='min-h-screen'>
       <div className='mx-auto flex'>
-        {/* SIDEBAR */}
         <Sidebar/>
       </div>
     </div>
