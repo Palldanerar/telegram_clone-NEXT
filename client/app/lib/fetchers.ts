@@ -8,8 +8,9 @@ interface userProps {
     messages: any[];
 }
 
-export async function handleSubmit(e: any, router: AppRouterInstance, avatarId: string) {
+export async function handleSubmit(e: any, router: AppRouterInstance, avatarId: string, socket: any) {
     e.preventDefault();
+    console.log(e.target[1].value);
     try {
         await fetch("/auth", {
             method: "POST",
@@ -22,6 +23,7 @@ export async function handleSubmit(e: any, router: AppRouterInstance, avatarId: 
                 "Content-Type": "application/json",
             },
         });
+        socket.emit("joined", "new user")
         router.push("/chat")
     } catch (err) {
         console.log(err);

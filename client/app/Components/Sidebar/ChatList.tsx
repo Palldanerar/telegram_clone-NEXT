@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react'
+"use client"
+
 import { fetchUsers } from '@/app/lib/fetchers';
-import { shallow } from 'zustand/shallow';
 import { useAllUsers } from '@/app/store/userStore';
+import React, { useEffect } from 'react'
+import { shallow } from 'zustand/shallow';
 import ChatItem from './ChatItem';
+import { io } from "socket.io-client"
 
 interface userProps {
     _id: string | undefined;
@@ -12,18 +15,21 @@ interface userProps {
     messages: any[];
 }
 
-
-const ChatList = ({ mySelf }: { mySelf: userProps }) => {
-
+function ChatList({ mySelf }: { mySelf: userProps }) {
     const { users, setUsers } = useAllUsers(
         (state: any) => ({ users: state.users, setUsers: state.setUsers }),
         shallow
     );
+    const socket = io("http://localhost:8080");
+    useEffect(() => {
+        socket.on("new-user", () => {
+            fetchUsers(mySelf, setUsers)
+        })
+    }, [])
 
     useEffect(() => {
         fetchUsers(mySelf, setUsers);
     }, [])
-
     return (
         <ul className='my-5 flex flex-col'>
             {

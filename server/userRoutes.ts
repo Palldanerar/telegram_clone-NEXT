@@ -8,7 +8,6 @@ const router = Router();
 router.post("/auth", async (req: Request, res: Response) => {
     const user = new User(req.body);
     try {
-        console.log(user)
         await user.save();
         const accessToken = jwt.sign(
             user.toObject(),

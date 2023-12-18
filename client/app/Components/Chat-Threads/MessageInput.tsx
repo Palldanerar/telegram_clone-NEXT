@@ -1,9 +1,11 @@
 "use client";
-import { useSelectedUser } from "@/app/store/userStore";
 import { SendMsIcon, SmileFaceIcon } from "@/app/Utils/icons";
+import { useSelectedUser } from "@/app/store/userStore";
+
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import { useCookies } from "react-cookie";;
+import { useCookies } from "react-cookie";
+import { io } from "socket.io-client";
 
 const Picker = dynamic(
     () => {
@@ -17,9 +19,12 @@ function MessageInput() {
     const [showEmojies, setShowEmojies] = useState<boolean>(false);
     const selectedUser = useSelectedUser((state) => state.selectedUser);
     const [cookie,setCookie]=useCookies(["user"])
+    const socket=io("http://localhost:8080")
 
     function handleSubmit(e: { preventDefault: () => void; }) {
         e.preventDefault();
+        socket.emit("private message",selectedUser.email,inpValue,cookie.user)
+        setInpValue("")
     }
     
     function onEmojiClick(emojiObject:{emoji:string}) {
