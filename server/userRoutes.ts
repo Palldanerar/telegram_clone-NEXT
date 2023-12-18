@@ -41,5 +41,13 @@ router.get("/user", async (req: Request, res: Response) => {
     }
 });
 
+router.get("/messages", async (req: Request, res: Response) => {
+    const { sender, reciver } = req.query;
+    const user = await User.find({ email: reciver });
+    const filteredUser = user[0]?.messages?.filter((message: any) => message.sender === sender && message.reciver === reciver || message.sender === reciver && message.reciver === sender);
+    res.send(filteredUser);
+})
+
+
 
 export default router;

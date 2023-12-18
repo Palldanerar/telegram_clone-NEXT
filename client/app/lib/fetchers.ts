@@ -30,7 +30,7 @@ export async function handleSubmit(e: any, router: AppRouterInstance, avatarId: 
 
 export async function fetchUser(cookie: { user?: any; }, setUser: { (user: any): void; (arg0: any): void; }) {
     const accessToken = cookie.user;
-    const response = await fetch("http://localhost:8080/user", {
+    const response = await fetch("/user", {
         method: "GET",
         headers: {
             Authorization: `${accessToken}`,
@@ -38,4 +38,23 @@ export async function fetchUser(cookie: { user?: any; }, setUser: { (user: any):
     });
     const user = await response.json();
     setUser(user[0]);
+}
+
+export async function fetchUsers(mySelf: userProps, setUsers: any) {
+    const data = await fetch("/users");
+    const myUsers = await data.json();
+    setUsers(myUsers.filter((user: any) => user.email !== mySelf?.email))
+}
+
+export async function fetchMessages(sender: any, reciver: any, setMessages: any) {
+    if (sender && reciver) {
+        try {
+            const res = await fetch(`/messages?sender=${sender?.email}&reciver=${reciver?.email}`)
+            const data = await res?.json();
+            setMessages(data);
+        } catch (err) {
+            console.log(err);
+            setMessages(null)
+        }
+    }
 }

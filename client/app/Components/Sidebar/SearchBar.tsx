@@ -3,17 +3,17 @@ import Image from 'next/image'
 import React from 'react'
 
 interface userProps {
-    _id: string | undefined;
-    imageId: string | undefined;
-    name: string | undefined;
-    email: string | undefined;
-    messages: any[];
+  _id: string | undefined;
+  imageId: string | undefined;
+  name: string | undefined;
+  email: string | undefined;
+  messages: any[];
 }
 
-function SearchBar({user}:{user:userProps}) {
+function SearchBar({ user }: { user: userProps }) {
 
   console.log(user)
-  
+
   return (
     <div className="flex gap-4">
       <div className="avatar online">
